@@ -100,6 +100,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
 	  if (timer_flag[0] == 1){
 		  Ex1();
 		  setTimer(0, 500);
