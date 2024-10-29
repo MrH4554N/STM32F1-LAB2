@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include  "Timer.h"
-#include "Ex3.h"
+#include "Ex5.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,17 +94,19 @@ int main(void)
   HAL_TIM_Base_Start_IT (& htim2 );
   setTimer(0, 1000);
   setTimer(1, 250);
+  Ex5Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (timer_flag[0] == 1){
+	  	  if(timer_flag[0] == 1){
 	  		 DotToggle();
+	  		 Ex5();
 	  		 setTimer(0, 1000);
 	  	 }
-	  	 if (timer_flag[1] == 1){
+	  	 if(timer_flag[1] == 1){
 	  		 if (index_led >= 4)
 	  			 index_led = 0;
 	  		 update7SEG(index_led++);

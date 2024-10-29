@@ -1,0 +1,7 @@
+Ex5.c:21:6:SegLedDisplay	16	static
+Ex5.c:123:6:Ex5Init	4	static
+Ex5.c:129:6:DotToggle	8	static
+Ex5.c:133:6:clear7SEG	8	static
+Ex5.c:139:6:update7SEG	16	static
+Ex5.c:168:6:ClockBufferUpdate	4	static
+Ex5.c:188:6:Ex5	8	static

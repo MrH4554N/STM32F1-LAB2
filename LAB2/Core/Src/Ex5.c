@@ -6,7 +6,7 @@
  */
 
 
-#include "Ex3.h"
+#include "Ex5.h"
 
 #define DIGIT0 0
 #define DIGIT1 1
@@ -17,6 +17,7 @@ int status;
 const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {0,1,2,3};
+int hour, minute, second;
 void SegLedDisplay(int num){
 	switch(num){
 			case 0:
@@ -119,46 +120,12 @@ void SegLedDisplay(int num){
 	}
 }
 
-//void Ex2Init(){
-//	status = DIGIT0;
-//	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-//	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-//	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-//	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-//}
-//
-//void LedSeg(){
-//		switch (status) {
-//			case DIGIT0 :
-//				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-//				status = DIGIT1;
-//				SegLedDisplay(1);
-//				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-//
-//				break;
-//			case DIGIT1 :
-//				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-//				status = DIGIT2;
-//				SegLedDisplay(2);
-//				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-//
-//				break;
-//			case DIGIT2 :
-//				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-//				status = DIGIT3;
-//				SegLedDisplay(3);
-//				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
-//
-//				break;
-//			case DIGIT3 :
-//				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-//				status = DIGIT0;
-//				SegLedDisplay(0);
-//				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
-//
-//				break;
-//		}
-//}
+void Ex5Init(){
+	hour = 15;
+	minute = 8;
+	second = 50;
+}
+
 void DotToggle(){
 	HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 }
@@ -197,4 +164,39 @@ void update7SEG(int index){
 			break;
 
 	}
+}
+void ClockBufferUpdate(){
+	if ((0 <= hour) && (hour <= 9)){
+		led_buffer[0] = 0;
+		led_buffer[1] = hour;
+	}
+	else {
+		led_buffer[0] = hour / 10;
+		led_buffer[1] = hour % 10;
+	}
+	if ((0 <= minute) && (minute <= 9)){
+		led_buffer[2] = 0;
+		led_buffer[3] = minute;
+	}
+	else {
+		led_buffer[2] = minute / 10;
+		led_buffer[3] = minute % 10;
+	}
+
+}
+
+void Ex5(){
+	second++;
+	if (second >= 60){
+		second = 0;
+		minute++;
+	}
+	if (minute >= 60){
+		minute = 0;
+		hour++;
+	}
+	if (hour >= 24){
+		hour = 0;
+	}
+	ClockBufferUpdate();
 }
