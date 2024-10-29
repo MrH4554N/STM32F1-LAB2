@@ -22,7 +22,7 @@ void setTimer(int index, int duration){
 void TimerRun(int index){
 	if(timer_counter[index] > 0){
 		timer_counter[index]--;
-		if(timer_counter[index] >= 0){
+		if(timer_counter[index] <= 0){
 			timer_flag[index] = 1;
 		}
 	}
