@@ -93,7 +93,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT (& htim2 );
   setTimer(0, 1000);
-  setTimer(1, 500);
+  setTimer(1, 250);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,7 +108,7 @@ int main(void)
 	  		 if (index_led >= 4)
 	  			 index_led = 0;
 	  		 update7SEG(index_led++);
-	  		 setTimer(1, 500);
+	  		 setTimer(1, 250);
 	  	 }
     /* USER CODE END WHILE */
 
