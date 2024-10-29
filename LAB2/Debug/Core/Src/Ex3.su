@@ -1,0 +1,4 @@
+Ex3.c:20:6:SegLedDisplay	16	static
+Ex3.c:162:6:DotToggle	8	static
+Ex3.c:166:6:clear7SEG	8	static
+Ex3.c:172:6:update7SEG	16	static

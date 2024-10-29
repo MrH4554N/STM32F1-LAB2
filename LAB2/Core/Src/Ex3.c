@@ -6,7 +6,7 @@
  */
 
 
-#include "Ex2.h"
+#include "Ex3.h"
 
 #define DIGIT0 0
 #define DIGIT1 1
@@ -14,7 +14,9 @@
 #define DIGIT3 3
 
 int status;
-
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer[4] = {0,1,2,3};
 void SegLedDisplay(int num){
 	switch(num){
 			case 0:
@@ -106,49 +108,93 @@ void SegLedDisplay(int num){
 				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, SET);
 				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, RESET);
 				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, RESET);
+			case 11:
+				HAL_GPIO_WritePin(SEG0_GPIO_Port, SEG0_Pin,	SET);
+				HAL_GPIO_WritePin(SEG1_GPIO_Port, SEG1_Pin, SET);
+				HAL_GPIO_WritePin(SEG2_GPIO_Port, SEG2_Pin, SET);
+				HAL_GPIO_WritePin(SEG3_GPIO_Port, SEG3_Pin, SET);
+				HAL_GPIO_WritePin(SEG4_GPIO_Port, SEG4_Pin, SET);
+				HAL_GPIO_WritePin(SEG5_GPIO_Port, SEG5_Pin, SET);
+				HAL_GPIO_WritePin(SEG6_GPIO_Port, SEG6_Pin, SET);
 	}
 }
 
-void Ex2Init(){
-	status = DIGIT0;
+//void Ex2Init(){
+//	status = DIGIT0;
+//	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+//	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+//	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+//	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+//}
+//
+//void LedSeg(){
+//		switch (status) {
+//			case DIGIT0 :
+//				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+//				status = DIGIT1;
+//				SegLedDisplay(1);
+//				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
+//
+//				break;
+//			case DIGIT1 :
+//				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+//				status = DIGIT2;
+//				SegLedDisplay(2);
+//				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+//
+//				break;
+//			case DIGIT2 :
+//				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+//				status = DIGIT3;
+//				SegLedDisplay(3);
+//				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
+//
+//				break;
+//			case DIGIT3 :
+//				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+//				status = DIGIT0;
+//				SegLedDisplay(0);
+//				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
+//
+//				break;
+//		}
+//}
+void DotToggle(){
+	HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+}
+
+void clear7SEG(){
 	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
 	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
 }
+void update7SEG(int index){
+	switch (index) {
+		case 0:
+			clear7SEG();
+			SegLedDisplay(led_buffer[index]);
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
 
-void LedSeg(){
-		switch (status) {
-			case DIGIT0 :
-				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-				status = DIGIT1;
-				SegLedDisplay(1);
-				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
+			break;
+		case 1:
 
-				break;
-			case DIGIT1 :
-				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-				status = DIGIT2;
-				SegLedDisplay(2);
-				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+			clear7SEG();
+			SegLedDisplay(led_buffer[index]);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+			break;
+		case 2:
+			clear7SEG();
+			SegLedDisplay(led_buffer[index]);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
 
-				break;
-			case DIGIT2 :
-				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-				status = DIGIT3;
-				SegLedDisplay(3);
-				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
+			break;
+		case 3:
+			clear7SEG();
+			SegLedDisplay(led_buffer[index]);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
 
-				break;
-			case DIGIT3 :
-				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-				status = DIGIT0;
-				SegLedDisplay(0);
-				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
+			break;
 
-				break;
-		}
-}
-void DotToggle(){
-	HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+	}
 }
