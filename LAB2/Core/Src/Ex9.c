@@ -20,6 +20,7 @@ int index_led_matrix = 0;
 int led_buffer[4] = {0,1,2,3};
 int hour, minute, second;
 uint8_t matrix_buffer [8] = {0x00, 0xFC, 0xFE, 0x33,0x33, 0xFE, 0xFC, 0x00};
+int shift = 0;
 void SegLedDisplay(int num){
 	switch(num){
 			case 0:
@@ -201,8 +202,9 @@ void decodeLed(uint8_t _8bit_led_){
 }
 void LEDMatrixUpdate(int index){
 	HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin | ENM1_Pin | ENM2_Pin | ENM3_Pin
-							|ENM4_Pin | ENM5_Pin | ENM6_Pin | ENM7_Pin	, SET);
-    decodeLed(matrix_buffer[index]);
+							|ENM4_Pin | ENM5_Pin | ENM6_Pin | ENM7_Pin, SET);
+	int index_led = (index - shift + 8) % 8;
+    decodeLed(matrix_buffer[index_led]);
     switch (index) {
         case 0:
             HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, RESET);
@@ -232,7 +234,10 @@ void LEDMatrixUpdate(int index){
             break;
     }
 }
-
+void shiftMatrix(){
+	shift++;
+	if (shift >= 8) shift = 0;
+}
 
 void Ex5(){
 	second++;

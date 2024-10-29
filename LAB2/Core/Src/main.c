@@ -94,7 +94,8 @@ int main(void)
   HAL_TIM_Base_Start_IT (& htim2 );
   setTimer(0, 1000);
   setTimer(1, 250);
-  setTimer(2, 13);
+  setTimer(2, 10);
+  setTimer(3, 60);
   Ex5Init();
   /* USER CODE END 2 */
 
@@ -118,6 +119,10 @@ int main(void)
 	 			 index_led_matrix = 0;
 	 		 LEDMatrixUpdate(index_led_matrix++);
 	 		 setTimer(2, 13);
+	 	 }
+	 	 if (timer_flag[3] == 1){
+	 			shiftMatrix();
+	 			setTimer(3, 60);
 	 	 }
     /* USER CODE END WHILE */
 
@@ -264,6 +269,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	TimerRun(0);
 	TimerRun(1);
 	TimerRun(2);
+	TimerRun(3);
 }
 /* USER CODE END 4 */
 

@@ -17,6 +17,7 @@ void DotToggle();
 void update7SEG(int index);
 void ClockBufferUpdate();
 void LEDMatrixUpdate(int index);
+void shiftMatrix();
 
 void Ex5Init();
 void Ex5();
