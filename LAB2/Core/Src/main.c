@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include  "Timer.h"
-#include "Ex5.h"
+#include "Ex9.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,6 +94,7 @@ int main(void)
   HAL_TIM_Base_Start_IT (& htim2 );
   setTimer(0, 1000);
   setTimer(1, 250);
+  setTimer(2, 13);
   Ex5Init();
   /* USER CODE END 2 */
 
@@ -101,17 +102,23 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  	  if(timer_flag[0] == 1){
-	  		 DotToggle();
-	  		 Ex5();
-	  		 setTimer(0, 1000);
-	  	 }
-	  	 if(timer_flag[1] == 1){
-	  		 if (index_led >= 4)
-	  			 index_led = 0;
-	  		 update7SEG(index_led++);
-	  		 setTimer(1, 250);
-	  	 }
+	  	 if(timer_flag[0] == 1){
+	 		 DotToggle();
+	 		 Ex5();
+	 		 setTimer(0, 1000);
+	 	 }
+	 	 if(timer_flag[1] == 1){
+	 		 if(index_led >= 4)
+	 			 index_led = 0;
+	 		 update7SEG(index_led++);
+	 		 setTimer(1, 250);
+	 	 }
+	 	 if (timer_flag[2] == 1){
+	 		 if (index_led_matrix >= 8)
+	 			 index_led_matrix = 0;
+	 		 LEDMatrixUpdate(index_led_matrix++);
+	 		 setTimer(2, 13);
+	 	 }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -256,6 +263,7 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	TimerRun(0);
 	TimerRun(1);
+	TimerRun(2);
 }
 /* USER CODE END 4 */
 

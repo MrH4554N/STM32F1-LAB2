@@ -6,7 +6,7 @@
  */
 
 
-#include "Ex5.h"
+#include "Ex9.h"
 
 #define DIGIT0 0
 #define DIGIT1 1
@@ -16,8 +16,10 @@
 int status;
 const int MAX_LED = 4;
 int index_led = 0;
+int index_led_matrix = 0;
 int led_buffer[4] = {0,1,2,3};
 int hour, minute, second;
+uint8_t matrix_buffer [8] = {0x00, 0xFC, 0xFE, 0x33,0x33, 0xFE, 0xFC, 0x00};
 void SegLedDisplay(int num){
 	switch(num){
 			case 0:
@@ -184,6 +186,53 @@ void ClockBufferUpdate(){
 	}
 
 }
+
+void decodeLed(uint8_t _8bit_led_){
+	uint16_t ROW[8] = {ROW0_Pin, ROW1_Pin, ROW2_Pin, ROW3_Pin,
+						ROW4_Pin, ROW5_Pin, ROW6_Pin, ROW7_Pin };
+	for (int i = 0; i < 8; ++i){
+		if((_8bit_led_) & (1 << (i))){
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW[i], RESET);
+		}
+		else {
+			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW[i], SET);
+		}
+	}
+}
+void LEDMatrixUpdate(int index){
+	HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin | ENM1_Pin | ENM2_Pin | ENM3_Pin
+							|ENM4_Pin | ENM5_Pin | ENM6_Pin | ENM7_Pin	, SET);
+    decodeLed(matrix_buffer[index]);
+    switch (index) {
+        case 0:
+            HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, RESET);
+            break;
+        case 1:
+        	HAL_GPIO_WritePin(ENM1_GPIO_Port, ENM1_Pin, RESET);
+            break;
+        case 2:
+        	HAL_GPIO_WritePin(ENM2_GPIO_Port, ENM2_Pin, RESET);
+            break;
+        case 3:
+        	HAL_GPIO_WritePin(ENM3_GPIO_Port, ENM3_Pin, RESET);
+            break;
+        case 4:
+        	HAL_GPIO_WritePin(ENM4_GPIO_Port, ENM4_Pin, RESET);
+            break;
+        case 5:
+        	HAL_GPIO_WritePin(ENM5_GPIO_Port, ENM5_Pin, RESET);
+            break;
+        case 6:
+        	HAL_GPIO_WritePin(ENM6_GPIO_Port, ENM6_Pin, RESET);
+            break;
+        case 7:
+        	HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, RESET);
+            break;
+        default:
+            break;
+    }
+}
+
 
 void Ex5(){
 	second++;
